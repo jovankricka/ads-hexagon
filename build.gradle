@@ -16,14 +16,17 @@ repositories {
 }
 
 dependencies {
+    // openapi
     implementation "org.openapitools:openapi-generator-gradle-plugin:5.4.0"
     implementation "org.openapitools:jackson-databind-nullable:0.2.2"
     implementation "io.springfox:springfox-swagger2:3.0.0"
 
+    // grpc
     implementation "com.google.protobuf:protobuf-java:3.20.1"
     implementation "io.grpc:grpc-all:1.46.0"
     implementation "net.devh:grpc-server-spring-boot-starter:2.13.1.RELEASE"
 
+    // spring
     implementation "org.springframework.boot:spring-boot-starter-web:2.6.7"
     implementation "org.springframework.boot:spring-boot-starter-log4j2"
     modules {
@@ -32,7 +35,17 @@ dependencies {
         }
     }
 
+    // lombok
+    compileOnly "org.projectlombok:lombok:1.18.24"
+    annotationProcessor "org.projectlombok:lombok:1.18.24"
+
+    // vavr
+    implementation "io.vavr:vavr:0.10.14"
+
+    // testing
     testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testCompileOnly "org.projectlombok:lombok:1.18.24"
+    testAnnotationProcessor "org.projectlombok:lombok:1.18.24"
 }
 
 configurations {
