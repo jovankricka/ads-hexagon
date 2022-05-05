@@ -1,4 +1,4 @@
-package com.theannotatedhexagon.adsservice.ports.out;
+package com.theannotatedhexagon.adsservice.ports.driven;
 
 import com.theannotatedhexagon.adsservice.domain.events.DomainEvent;
 

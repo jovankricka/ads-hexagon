@@ -2,7 +2,7 @@ package com.theannotatedhexagon.adsservice.adapters.in.rest;
 
 import com.theannotatedhexagon.adsservice.api.AdsApi;
 import com.theannotatedhexagon.adsservice.api.models.Ad;
-import com.theannotatedhexagon.adsservice.ports.in.AdsPort;
+import com.theannotatedhexagon.adsservice.ports.driver.AdsPort;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

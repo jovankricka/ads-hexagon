@@ -1,4 +1,4 @@
-package com.theannotatedhexagon.adsservice.ports.in;
+package com.theannotatedhexagon.adsservice.ports.driver;
 
 import com.theannotatedhexagon.adsservice.domain.errors.DomainError;
 import com.theannotatedhexagon.adsservice.domain.models.Ad;

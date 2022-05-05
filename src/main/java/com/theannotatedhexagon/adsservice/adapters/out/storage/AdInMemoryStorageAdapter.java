@@ -3,7 +3,7 @@ package com.theannotatedhexagon.adsservice.adapters.out.storage;
 import com.theannotatedhexagon.adsservice.domain.errors.DomainError;
 import com.theannotatedhexagon.adsservice.domain.models.Ad;
 import com.theannotatedhexagon.adsservice.domain.models.AdId;
-import com.theannotatedhexagon.adsservice.ports.out.AdsStoragePort;
+import com.theannotatedhexagon.adsservice.ports.driven.AdsStoragePort;
 import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
 

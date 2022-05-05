@@ -1,7 +1,7 @@
 package com.theannotatedhexagon.adsservice.adapters.in.grpc;
 
 import com.theannotatedhexagon.adsservice.domain.models.AdId;
-import com.theannotatedhexagon.adsservice.ports.in.AdsPort;
+import com.theannotatedhexagon.adsservice.ports.driver.AdsPort;
 import com.theannotatedhexagon.grpc.AdServiceGrpc;
 import com.theannotatedhexagon.grpc.GrpcApi;
 import io.grpc.protobuf.StatusProto;
