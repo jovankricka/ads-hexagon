@@ -5,19 +5,19 @@ import lombok.Builder;
 import lombok.Value;
 
 @Value
-public class AdWithDuplicateTitle implements DomainError {
+public class AdWithExistingTitle implements DomainError {
 
     String title;
 
     @Builder(builderMethodName = "of")
-    public AdWithDuplicateTitle(String title) {
+    public AdWithExistingTitle(String title) {
         Preconditions.checkNotNull(title);
         this.title = title;
     }
 
     @Override
     public String getMessage() {
-        return "Ad with duplicate title " + title + " is not allowed.";
+        return "Ad with duplicate title " + title + " is not allowed to be displayed.";
     }
 
 }

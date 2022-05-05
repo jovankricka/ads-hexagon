@@ -5,5 +5,5 @@ import lombok.NoArgsConstructor;
 
 @Builder(builderMethodName = "of")
 @NoArgsConstructor
-public class AttemptToCreateAdWithDuplicateTitle implements DomainEvent {
+public class AdToStopAlreadyStopped implements DomainEvent {
 }

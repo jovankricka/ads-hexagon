@@ -17,21 +17,21 @@ public class Ad {
     AdId id;
     String title;
     String description;
-    boolean shouldBeDisplayed;
+    boolean active;
 
     @Builder(builderMethodName = "of", toBuilder = true)
-    public Ad(AdId id, String title, String description, boolean shouldBeDisplayed) {
+    public Ad(AdId id, String title, String description, boolean active) {
         Objects.requireNonNull(id);
         Preconditions.checkArgument(Strings.isNotBlank(title));
         Preconditions.checkArgument(Strings.isNotBlank(description));
         this.id = id;
         this.title = title;
         this.description = description;
-        this.shouldBeDisplayed = shouldBeDisplayed;
+        this.active = active;
     }
 
-    public Ad stopDisplaying() {
-        return this.toBuilder().shouldBeDisplayed(false).build();
+    public Ad deactivate() {
+        return this.toBuilder().active(false).build();
     }
 
 }

@@ -13,6 +13,6 @@ public interface AdsPort {
 
     Either<DomainError, Ad> stopAdDisplaying(AdId id);
 
-    Either<DomainError, List<Ad>> getAllAds();
+    Either<DomainError, List<Ad>> getAllActiveAds();
 
 }

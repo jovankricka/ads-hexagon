@@ -1,6 +1,7 @@
 package com.theannotatedhexagon.adsservice.domain.services;
 
-import com.theannotatedhexagon.adsservice.domain.errors.AdWithDuplicateTitle;
+import com.theannotatedhexagon.adsservice.domain.errors.AdAlreadyStopped;
+import com.theannotatedhexagon.adsservice.domain.errors.AdWithExistingTitle;
 import com.theannotatedhexagon.adsservice.domain.errors.DomainError;
 import com.theannotatedhexagon.adsservice.domain.errors.NonExistingAd;
 import com.theannotatedhexagon.adsservice.domain.events.*;
@@ -25,14 +26,15 @@ public class AdsService implements AdsPort {
     @Override
     public Either<DomainError, Ad> startAdDisplaying(String adTitle, String adDescription) {
         var maybeAd = adsStoragePort.findAdByTitle(adTitle);
-        if (maybeAd.isPresent()) {
-            observabilityPort.observe(new AttemptToCreateAdWithDuplicateTitle());
-            return Either.left(AdWithDuplicateTitle.of().title(adTitle).build());
+        if (maybeAd.isPresent() && maybeAd.get().isActive()) {
+            observabilityPort.observe(new AttemptToDisplayAdWithExistingTitle());
+            return Either.left(AdWithExistingTitle.of().title(adTitle).build());
         }
         var newAd = Ad.of()
                 .id(AdId.generate())
                 .title(adTitle)
                 .description(adDescription)
+                .active(true)
                 .build();
         return adsStoragePort.save(newAd)
                 .peekLeft(ignore -> observabilityPort.observe(new AdDisplayingStartFailed()))
@@ -47,14 +49,18 @@ public class AdsService implements AdsPort {
             return Either.left(NonExistingAd.of().id(id).build());
         }
         var existingAd = maybeAd.get();
-        return adsStoragePort.save(existingAd)
+        if (!existingAd.isActive()) {
+            observabilityPort.observe(new AdToStopAlreadyStopped());
+            return Either.left(AdAlreadyStopped.of().id(id).build());
+        }
+        return adsStoragePort.save(existingAd.deactivate())
                 .peekLeft(ignore -> observabilityPort.observe(new AdDisplayingStopFailed()))
                 .peek(ignore -> observabilityPort.observe(new AdDisplayingStopped()));
     }
 
     @Override
-    public Either<DomainError, List<Ad>> getAllAds() {
-        return adsStoragePort.getAll()
+    public Either<DomainError, List<Ad>> getAllActiveAds() {
+        return adsStoragePort.getAllActiveAds()
                 .peekLeft(ignore -> observabilityPort.observe(new AdsRetrievalFailed()))
                 .peek(ignore -> observabilityPort.observe(new AdsRetrieved()));
     }

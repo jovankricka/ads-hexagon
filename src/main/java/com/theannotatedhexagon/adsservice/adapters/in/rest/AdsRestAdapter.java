@@ -18,7 +18,7 @@ public class AdsRestAdapter implements AdsApi {
 
     @Override
     public ResponseEntity<List<Ad>> getAds() {
-        return adsPort.getAllAds()
+        return adsPort.getAllActiveAds()
                 .fold(
                         error -> converter.fromDomainError(error),
                         ads -> converter.fromDomainModel(ads)

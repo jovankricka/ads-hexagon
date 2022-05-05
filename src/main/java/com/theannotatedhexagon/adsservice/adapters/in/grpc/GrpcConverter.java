@@ -2,7 +2,8 @@ package com.theannotatedhexagon.adsservice.adapters.in.grpc;
 
 import com.google.rpc.Code;
 import com.google.rpc.Status;
-import com.theannotatedhexagon.adsservice.domain.errors.AdWithDuplicateTitle;
+import com.theannotatedhexagon.adsservice.domain.errors.AdAlreadyStopped;
+import com.theannotatedhexagon.adsservice.domain.errors.AdWithExistingTitle;
 import com.theannotatedhexagon.adsservice.domain.errors.DomainError;
 import com.theannotatedhexagon.adsservice.domain.errors.NonExistingAd;
 import com.theannotatedhexagon.adsservice.domain.models.Ad;
@@ -15,8 +16,9 @@ import java.util.Map;
 public class GrpcConverter {
 
     private static final Map<Class<? extends DomainError>, Integer> ERROR_CODE_DICTIONARY = Map.of(
-            AdWithDuplicateTitle.class, Code.ALREADY_EXISTS_VALUE,
-            NonExistingAd.class, Code.NOT_FOUND_VALUE
+            AdWithExistingTitle.class, Code.ALREADY_EXISTS_VALUE,
+            NonExistingAd.class, Code.NOT_FOUND_VALUE,
+            AdAlreadyStopped.class, Code.FAILED_PRECONDITION_VALUE
     );
 
     public GrpcApi.Ad fromDomainModel(Ad ad) {
