@@ -1,4 +1,4 @@
-package com.theannotatedhexagon.adsservice.adapters.in.grpc;
+package com.theannotatedhexagon.adsservice.adapters.driver.grpc;
 
 import com.theannotatedhexagon.adsservice.domain.models.AdId;
 import com.theannotatedhexagon.adsservice.ports.driver.AdsPort;

@@ -1,4 +1,4 @@
-package com.theannotatedhexagon.adsservice.adapters.out.observability;
+package com.theannotatedhexagon.adsservice.adapters.driven.observability;
 
 import com.theannotatedhexagon.adsservice.domain.events.DomainEvent;
 import com.theannotatedhexagon.adsservice.ports.driven.ObservabilityPort;

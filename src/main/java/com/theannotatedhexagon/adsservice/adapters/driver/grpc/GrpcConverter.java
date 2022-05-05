@@ -1,4 +1,4 @@
-package com.theannotatedhexagon.adsservice.adapters.in.grpc;
+package com.theannotatedhexagon.adsservice.adapters.driver.grpc;
 
 import com.google.rpc.Code;
 import com.google.rpc.Status;

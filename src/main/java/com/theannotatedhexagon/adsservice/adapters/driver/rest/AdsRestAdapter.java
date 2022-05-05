@@ -1,4 +1,4 @@
-package com.theannotatedhexagon.adsservice.adapters.in.rest;
+package com.theannotatedhexagon.adsservice.adapters.driver.rest;
 
 import com.theannotatedhexagon.adsservice.api.AdsApi;
 import com.theannotatedhexagon.adsservice.api.models.Ad;

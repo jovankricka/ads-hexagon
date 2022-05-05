@@ -1,4 +1,4 @@
-package com.theannotatedhexagon.adsservice.adapters.out.storage;
+package com.theannotatedhexagon.adsservice.adapters.driven.storage;
 
 import com.theannotatedhexagon.adsservice.domain.errors.DomainError;
 import com.theannotatedhexagon.adsservice.domain.models.Ad;

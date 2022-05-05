@@ -1,4 +1,4 @@
-package com.theannotatedhexagon.adsservice.adapters.in.rest;
+package com.theannotatedhexagon.adsservice.adapters.driver.rest;
 
 import com.theannotatedhexagon.adsservice.domain.errors.DomainError;
 import com.theannotatedhexagon.adsservice.domain.models.Ad;
