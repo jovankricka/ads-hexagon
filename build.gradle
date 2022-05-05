@@ -42,6 +42,9 @@ dependencies {
     // vavr
     implementation "io.vavr:vavr:0.10.4"
 
+    // logging
+    implementation 'log4j:log4j:1.2.17'
+
     // testing
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testCompileOnly "org.projectlombok:lombok:1.18.24"

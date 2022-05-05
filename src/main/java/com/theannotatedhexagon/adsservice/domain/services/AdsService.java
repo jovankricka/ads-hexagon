@@ -27,7 +27,7 @@ public class AdsService implements AdsPort {
     public Either<DomainError, Ad> startAdDisplaying(String adTitle, String adDescription) {
         var maybeAd = adsStoragePort.findAdByTitle(adTitle);
         if (maybeAd.isPresent() && maybeAd.get().isActive()) {
-            observabilityPort.observe(new AttemptToDisplayAdWithExistingTitle());
+            observabilityPort.observe(new AttemptToDisplayAdWithExistingTitle(adTitle));
             return Either.left(AdWithExistingTitle.of().title(adTitle).build());
         }
         var newAd = Ad.of()
@@ -37,25 +37,25 @@ public class AdsService implements AdsPort {
                 .active(true)
                 .build();
         return adsStoragePort.save(newAd)
-                .peekLeft(ignore -> observabilityPort.observe(new AdDisplayingStartFailed()))
-                .peek(ignore -> observabilityPort.observe(new AdDisplayingStarted()));
+                .peekLeft(ignore -> observabilityPort.observe(new AdDisplayingStartFailed(newAd)))
+                .peek(ignore -> observabilityPort.observe(new AdDisplayingStarted(newAd)));
     }
 
     @Override
     public Either<DomainError, Ad> stopAdDisplaying(AdId id) {
         var maybeAd = adsStoragePort.findById(id);
         if (maybeAd.isEmpty()) {
-            observabilityPort.observe(new AttemptToStopNonExistingAd());
+            observabilityPort.observe(new AttemptToStopNonExistingAd(id));
             return Either.left(NonExistingAd.of().id(id).build());
         }
         var existingAd = maybeAd.get();
         if (!existingAd.isActive()) {
-            observabilityPort.observe(new AdToStopAlreadyStopped());
+            observabilityPort.observe(new AdToStopAlreadyStopped(existingAd));
             return Either.left(AdAlreadyStopped.of().id(id).build());
         }
         return adsStoragePort.save(existingAd.deactivate())
-                .peekLeft(ignore -> observabilityPort.observe(new AdDisplayingStopFailed()))
-                .peek(ignore -> observabilityPort.observe(new AdDisplayingStopped()));
+                .peekLeft(ignore -> observabilityPort.observe(new AdDisplayingStopFailed(existingAd)))
+                .peek(ignore -> observabilityPort.observe(new AdDisplayingStopped(existingAd)));
     }
 
     @Override
