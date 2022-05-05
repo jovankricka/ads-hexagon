@@ -3,24 +3,21 @@ syntax = "proto3";
 package com.theannotatedhexagon.grpc;
 
 message Ad {
-    string AdId = 1;
+    string id = 1;
     string title = 2;
     string description = 3;
 }
 
-message AdId {
-    string value = 1;
-}
-
 message StartAdDisplayingRequest {
-    Ad ad = 1;
+    string title = 1;
+    string description = 2;
 }
 
 message StopAdDisplayingRequest {
-    AdId adId = 1;
+    string adId = 1;
 }
 
 service AdService {
-    rpc StartAdDisplaying (StartAdDisplayingRequest) returns (AdId) {}
-    rpc StopAdDisplaying (StopAdDisplayingRequest) returns (AdId) {}
+    rpc StartAdDisplaying (StartAdDisplayingRequest) returns (Ad) {}
+    rpc StopAdDisplaying (StopAdDisplayingRequest) returns (Ad) {}
 }

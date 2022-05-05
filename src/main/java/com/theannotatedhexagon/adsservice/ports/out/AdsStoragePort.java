@@ -12,7 +12,7 @@ public interface AdsStoragePort {
 
     Either<DomainError, Ad> save(Ad ad);
 
-    List<Ad> getAll();
+    Either<DomainError, List<Ad>> getAll();
 
     Optional<Ad> findAdByTitle(String title);
 

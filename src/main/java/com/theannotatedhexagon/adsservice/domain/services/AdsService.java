@@ -10,9 +10,13 @@ import com.theannotatedhexagon.adsservice.ports.in.AdsPort;
 import com.theannotatedhexagon.adsservice.ports.out.AdsStoragePort;
 import com.theannotatedhexagon.adsservice.ports.out.ObservabilityPort;
 import io.vavr.control.Either;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
+@AllArgsConstructor
 public class AdsService implements AdsPort {
 
     private AdsStoragePort adsStoragePort;
@@ -46,6 +50,13 @@ public class AdsService implements AdsPort {
         return adsStoragePort.save(existingAd)
                 .peekLeft(ignore -> observabilityPort.observe(new AdDisplayingStopFailed()))
                 .peek(ignore -> observabilityPort.observe(new AdDisplayingStopped()));
+    }
+
+    @Override
+    public Either<DomainError, List<Ad>> getAllAds() {
+        return adsStoragePort.getAll()
+                .peekLeft(ignore -> observabilityPort.observe(new AdsRetrievalFailed()))
+                .peek(ignore -> observabilityPort.observe(new AdsRetrieved()));
     }
 
 }

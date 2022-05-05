@@ -23,8 +23,8 @@ public class AdInMemoryStorageAdapter implements AdsStoragePort {
     }
 
     @Override
-    public List<Ad> getAll() {
-        return new LinkedList<>(ads);
+    public Either<DomainError, List<Ad>> getAll() {
+        return Either.right(new LinkedList<>(ads));
     }
 
     @Override
