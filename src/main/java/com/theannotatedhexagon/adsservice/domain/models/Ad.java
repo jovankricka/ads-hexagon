@@ -20,10 +20,10 @@ public class Ad {
     boolean active;
 
     @Builder(builderMethodName = "of", toBuilder = true)
-    public Ad(AdId id, String title, String description, boolean active) {
+    private Ad(AdId id, String title, String description, boolean active) {
         Objects.requireNonNull(id);
-        Preconditions.checkArgument(Strings.isNotBlank(title));
-        Preconditions.checkArgument(Strings.isNotBlank(description));
+        Preconditions.checkArgument(Strings.isNotBlank(title) && title.length() < 80);
+        Preconditions.checkArgument(Strings.isBlank(description) || description.length() < 400);
         this.id = id;
         this.title = title;
         this.description = description;

@@ -4,7 +4,6 @@ import com.theannotatedhexagon.adsservice.domain.models.AdId;
 import com.theannotatedhexagon.adsservice.ports.driver.AdsPort;
 import com.theannotatedhexagon.grpc.AdServiceGrpc;
 import com.theannotatedhexagon.grpc.GrpcApi;
-import io.grpc.protobuf.StatusProto;
 import io.grpc.stub.StreamObserver;
 import lombok.AllArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
@@ -15,15 +14,22 @@ public class AdsGrpcAdapter extends AdServiceGrpc.AdServiceImplBase {
 
     private AdsPort adsPort;
     private GrpcConverter converter;
+    private GrpcValidator validator;
 
     @Override
     public void startAdDisplaying(GrpcApi.StartAdDisplayingRequest request, StreamObserver<GrpcApi.Ad> responseObserver) {
-        adsPort.startAdDisplaying(request.getTitle(), request.getDescription())
-                .peek(ad -> {
-                    responseObserver.onNext(converter.fromDomainModel(ad));
-                    responseObserver.onCompleted();
-                })
-                .peekLeft(error -> responseObserver.onError(StatusProto.toStatusRuntimeException(converter.fromDomainError(error))));
+        validator.validate(request)
+                .peekLeft(
+                        errors -> responseObserver.onError(converter.fromValidationErrors(errors))
+                )
+                .peek(
+                        ignore -> adsPort.startAdDisplaying(request.getTitle(), request.getDescription())
+                                .peek(ad -> {
+                                    responseObserver.onNext(converter.fromDomainModel(ad));
+                                    responseObserver.onCompleted();
+                                })
+                                .peekLeft(error -> responseObserver.onError(converter.fromDomainError(error)))
+                );
     }
 
     @Override
@@ -33,6 +39,6 @@ public class AdsGrpcAdapter extends AdServiceGrpc.AdServiceImplBase {
                     responseObserver.onNext(converter.fromDomainModel(ad));
                     responseObserver.onCompleted();
                 })
-                .peekLeft(error -> responseObserver.onError(StatusProto.toStatusRuntimeException(converter.fromDomainError(error))));
+                .peekLeft(error -> responseObserver.onError(converter.fromDomainError(error)));
     }
 }

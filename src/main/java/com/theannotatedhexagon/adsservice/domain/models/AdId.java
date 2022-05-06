@@ -17,7 +17,7 @@ public class AdId {
     String value;
 
     @Builder(builderMethodName = "of")
-    public AdId(String value) {
+    private AdId(String value) {
         Preconditions.checkArgument(Strings.isNotBlank(value));
         this.value = value;
     }
