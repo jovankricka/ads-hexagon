@@ -1,1 +1,5 @@
 rootProject.name = 'ads-service'
+include 'client-ads'
+include 'ads-gateway'
+include 'email-ads'
+

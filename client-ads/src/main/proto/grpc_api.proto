@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package com.theannotatedhexagon.clientads.grpc;
+
+message ClientAd {
+    string id = 1;
+    string title = 2;
+    string description = 3;
+}
+
+message StartAdDisplayingRequest {
+    string title = 1;
+    string description = 2;
+}
+
+message StopAdDisplayingRequest {
+    string adId = 1;
+}
+
+service ClientAdService {
+    rpc StartAdDisplaying (StartAdDisplayingRequest) returns (ClientAd) {}
+    rpc StopAdDisplaying (StopAdDisplayingRequest) returns (ClientAd) {}
+}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package com.theannotatedhexagon.adsgateway.grpc;
+
+message Ad {
+  string title = 2;
+  string description = 3;
+}
+
+service AdService {
+  rpc PublishAd (Ad) returns (Ad) {}
+}

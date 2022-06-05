@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package com.theannotatedhexagon.emailads.grpc;
+
+message EmailAd {
+  string title = 2;
+  string description = 3;
+}
+
+service EmailAdService {
+  rpc SendEmailAd (EmailAd) returns (EmailAd) {}
+}
