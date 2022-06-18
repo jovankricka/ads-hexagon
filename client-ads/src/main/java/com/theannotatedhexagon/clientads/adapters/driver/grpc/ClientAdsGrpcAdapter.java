@@ -4,6 +4,8 @@ import com.theannotatedhexagon.clientads.domain.models.AdId;
 import com.theannotatedhexagon.clientads.grpc.ClientAdServiceGrpc;
 import com.theannotatedhexagon.clientads.grpc.GrpcApi;
 import com.theannotatedhexagon.clientads.ports.driver.AdsPort;
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
 import lombok.AllArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
@@ -30,6 +32,19 @@ public class ClientAdsGrpcAdapter extends ClientAdServiceGrpc.ClientAdServiceImp
                                 })
                                 .peekLeft(error -> responseObserver.onError(converter.fromDomainError(error)))
                 );
+    }
+
+    public GrpcApi.ClientAd startAdDisplaying(GrpcApi.StartAdDisplayingRequest request) {
+        var validationResult = validator.validate(request);
+        if (validationResult.isLeft()) {
+            throw new StatusRuntimeException(Status.fromCode(Status.Code.FAILED_PRECONDITION));
+        }
+
+        var result = adsPort.startAdDisplaying(request.getTitle(), request.getDescription());
+        if (result.isLeft()) {
+            throw converter.fromDomainError(result.getLeft());
+        }
+        return converter.fromDomainModel(result.get());
     }
 
     @Override
